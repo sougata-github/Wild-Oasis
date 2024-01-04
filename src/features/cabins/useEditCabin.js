@@ -15,7 +15,7 @@ export function useEditCabin() {
         queryKey: ["cabin"],
       });
     },
-    onError: () => toast.error("Cabin could not be deleted!"),
+    onError: () => toast.error("Cabin could not be edited!"),
   });
 
   return { isEditing, editCabin };
