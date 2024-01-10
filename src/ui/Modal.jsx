@@ -1,7 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { HiXMark } from "react-icons/hi2";
 import { createPortal } from "react-dom";
+import { cloneElement, createContext, useContext, useState } from "react";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -52,18 +54,49 @@ const Button = styled.button`
   }
 `;
 
-const Modal = ({ children, onCloseModal }) => {
+const ModalContext = createContext();
+
+function Modal({ children }) {
+  const [openName, setOpenName] = useState("");
+
+  const close = () => setOpenName("");
+
+  return (
+    <ModalContext.Provider value={{ openName, close, setOpenName }}>
+      {children}
+    </ModalContext.Provider>
+  );
+}
+
+function Open({ children, opens: opensWindowName }) {
+  const { setOpenName } = useContext(ModalContext);
+
+  //clones the element and returns it with the prop attached
+  return cloneElement(children, {
+    onClick: () => setOpenName(opensWindowName),
+  });
+}
+
+function Window({ children, name }) {
+  const { openName, close } = useContext(ModalContext);
+  if (name !== openName) {
+    return null;
+  }
+
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={onCloseModal}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
     document.body
   );
-};
+}
+
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;
