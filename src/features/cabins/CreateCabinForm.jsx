@@ -33,7 +33,15 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       typeof data.imageUrl === "string" ? data.imageUrl : data.imageUrl[0];
 
     if (editSession) {
-      editCabin({ newCabinData: { ...data, imageUrl: image }, id: editId });
+      editCabin(
+        { newCabinData: { ...data, imageUrl: image }, id: editId },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
     } else {
       createCabin(
         { ...data, imageUrl: image },
