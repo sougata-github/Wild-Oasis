@@ -21,6 +21,20 @@ const CabinTable = () => {
   if (filterValue === "with-discount")
     filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
+  //sorting
+  const sortBy = searchParams.get("sortBy") || "name-asc";
+
+  const [field, direction] = sortBy.split("-");
+
+  const modifier = direction === "asc" ? 1 : -1;
+
+  let sortedCabins = [];
+  if (filteredCabins) {
+    sortedCabins = filteredCabins.sort(
+      (a, b) => (a[field] - b[field]) * modifier
+    );
+  }
+
   if (isLoading) return <Spinner />;
 
   return (
@@ -35,7 +49,7 @@ const CabinTable = () => {
           <div></div>
         </Table.Header>
         <Table.Body
-          data={filteredCabins}
+          data={sortedCabins}
           render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>
