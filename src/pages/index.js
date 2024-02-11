@@ -7,6 +7,7 @@ import PageNotFound from "./PageNotFound";
 import Settings from "./Settings";
 import Users from "./Users";
 import Booking from "./Booking";
+import Checkin from "./Checkin";
 
 export {
   Account,
@@ -18,4 +19,5 @@ export {
   Settings,
   Users,
   Booking,
+  Checkin,
 };
