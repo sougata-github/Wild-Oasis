@@ -19,6 +19,7 @@ import {
 } from "./pages/index";
 
 import AppLayout from "./ui/AppLayout";
+
 import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
