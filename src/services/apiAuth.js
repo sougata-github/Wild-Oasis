@@ -17,7 +17,7 @@ export async function signup({ fullName, email, password }) {
     throw new Error(error.message);
   }
 
-  return data?.user;
+  return data;
 }
 
 //sign-in:
@@ -34,6 +34,12 @@ export async function login({ email, password }) {
   return data;
 }
 
+//sign-out:
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error(error.message);
+}
+
 //get user:
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
@@ -47,10 +53,4 @@ export async function getCurrentUser() {
   }
 
   return data?.user;
-}
-
-//sign-out:
-export async function logout() {
-  const { error } = await supabase.auth.signOut();
-  if (error) throw new Error(error.message);
 }
