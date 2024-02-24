@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
 import Logout from "../features/authentication/Logout";
+
 import ButtonIcon from "./ButtonIcon";
-import { useNavigate } from "react-router-dom";
+import ModeToggle from "./ModeToggle";
+
 import { HiOutlineUser } from "react-icons/hi2";
+
+import { useNavigate } from "react-router-dom";
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -19,6 +23,9 @@ const HeaderMenu = () => {
         <ButtonIcon onClick={() => navigate("/account")}>
           <HiOutlineUser />
         </ButtonIcon>
+      </li>
+      <li>
+        <ModeToggle />
       </li>
       <li>
         <Logout />
