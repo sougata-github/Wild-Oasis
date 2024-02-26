@@ -46,15 +46,18 @@ async function createBooking() {
     .from("Guest")
     .select("id")
     .order("id");
-  const allGuestIds = guestsIds.map((cabin) => cabin.id);
+
+  const allGuestIds = guestsIds.map((guest) => guest.id);
+
   const { data: cabinsIds } = await supabase
     .from("Cabin")
     .select("id")
     .order("id");
+
   const allCabinIds = cabinsIds.map((cabin) => cabin.id);
 
   const finalBooking = bookings.map((booking) => {
-    // Here relying on the order of cabins, as they don't have and ID yet
+    // Here relying on the order of cabins, as they don't have an ID yet
     const cabin = cabins.at(booking.cabinId - 1);
     const numNights = subtractDates(booking.endDate, booking.startDate);
     const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
@@ -93,8 +96,6 @@ async function createBooking() {
       status,
     };
   });
-
-  console.log(finalBooking);
 
   const { error } = await supabase.from("Booking").insert(finalBooking);
   if (error) console.log(error.message);
